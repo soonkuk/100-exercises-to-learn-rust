@@ -11,39 +11,67 @@ pub struct Ticket {
 
 impl Ticket {
     pub fn new(title: String, description: String, status: String) -> Ticket {
-        if title.is_empty() {
-            panic!("Title cannot be empty");
-        }
-        if title.len() > 50 {
-            panic!("Title cannot be longer than 50 bytes");
-        }
-        if description.is_empty() {
-            panic!("Description cannot be empty");
-        }
-        if description.len() > 500 {
-            panic!("Description cannot be longer than 500 bytes");
-        }
-        if status != "To-Do" && status != "In Progress" && status != "Done" {
-            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
-        }
-
-        Ticket {
+        let ticket = Ticket {
             title,
             description,
             status,
-        }
+        };
+        ticket.validate_title();
+        ticket.validate_description();
+        ticket.validate_status();
+
+        ticket
     }
 
     pub fn title(&self) -> &String {
         &self.title
     }
 
+    pub fn set_title(&mut self, title: String) {
+        self.title = title;
+        self.validate_title();
+    }
+
     pub fn description(&self) -> &String {
         &self.description
     }
 
+    pub fn set_description(&mut self, description: String) {
+        self.description = description;
+        self.validate_description();
+    }
+
     pub fn status(&self) -> &String {
         &self.status
+    }
+
+    pub fn set_status(&mut self, status: String) {
+        self.status = status;
+        self.validate_status();
+    }
+
+    fn validate_title(&self) {
+        if self.title.is_empty() {
+            panic!("Title cannot be empty");
+        }
+        if self.title.len() > 50 {
+            panic!("Title cannot be longer than 50 bytes");
+        }
+    }
+
+    fn validate_description(&self) {
+        if self.description.is_empty() {
+            panic!("Description cannot be empty");
+        }
+        if self.description.len() > 500 {
+            panic!("Description cannot be longer than 500 bytes");
+        }
+    }
+
+    fn validate_status(&self) {
+        if self.status != "To-Do" && self.status != "In Progress" && self.status != "Done" {
+            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
+        }
     }
 }
 
